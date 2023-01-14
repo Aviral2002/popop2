@@ -24,7 +24,7 @@ export const createGroup = async (productId,authtoken,GroupDetails)=>
 
 
       export const JoinGroup = async (productId,authtoken,GroupDetails)=>{
-    const res = await axios.put(
+     await axios.put(
         `${process.env.REACT_APP_API}/product/${productId}/JoinGroup`,{
             GroupDetails
         }
@@ -35,5 +35,5 @@ export const createGroup = async (productId,authtoken,GroupDetails)=>
           },
         }
       )
-    return res.data;
+    
     };

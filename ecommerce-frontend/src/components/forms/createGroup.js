@@ -28,8 +28,8 @@ const  CreateGroupPage =({history,match})=>{ // match basically contains the par
 
 const handleSubmit=(e)=>{
     e.preventDefault();
-    console.log(name)
-    createGroup(SingleProductId,user.token,name)
+    console.log(SingleProductId)
+    createGroup(SingleProductId._id,user.token,name)
     .then(res=>{
       console.log(res);
       window.alert(`"${res.data.groupName} is created"`)   

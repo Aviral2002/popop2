@@ -6,7 +6,8 @@ import {drawerReducer} from "./drawerReducer";
 import {couponReducer} from "./couponReducer";
 import {CODReducer} from "./CODReducer";
 import { SingleProductIdReducer } from "./SingleProductId";
-import { GroupBuyingPriceReducer } from "./GroupBuyingPriceReducer";
+import { JoinGroupReducer } from "./JoinGroupReducer";
+import { PaymentStatusReducer } from "./paymentStatusReducer";
 
 const rootReducer = combineReducers({
     user : userReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     coupon : couponReducer,
     COD : CODReducer,
     SingleProductId:SingleProductIdReducer,
-    GroupBuyingPrice:GroupBuyingPriceReducer,
+    JoinGroup:JoinGroupReducer,
+    PaymentStatusReducer:PaymentStatusReducer,
 });
 
 export default rootReducer;

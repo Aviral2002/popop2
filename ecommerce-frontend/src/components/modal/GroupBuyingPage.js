@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const initialState={    
    groupName:""
@@ -14,6 +15,7 @@ const initialState={
 
 const ShowGroup=({fetchedPid})=>{
   const [groups,setGroups] = useState([]);
+  const [GroupJoined,setGroupJoined]=useState(false);
     // const [values,setValues] =useState(initialState);
     const [joinGroupAble,setJoinGroupAble]=useState(true);
 
@@ -97,16 +99,25 @@ const handleGroupJoin=async(groupName)=>{
       console.log(groupDetail)
       const response = await JoinGroup(fetchedPid, user.token, groupDetail)
       .then((e)=>{
+        console.log('hoho')
         setJoinGroupAble(false);
-        
+        setGroupJoined(true);
         dispatch({
-          type: "Group_Buying_Price",
-          payload: price,
+          type:"GROUP_BUYING",
+          payload: !GroupJoined,
       })
+        toast.success("You Joined A Group!")
+       
 
       SendDiscountedPrice();
 
       })
+
+    //   dispatch({
+    //     type:"GROUP_BUYING",
+    //     payload: GroupJoined,
+    // })
+
       console.log(response)
 
 
@@ -131,7 +142,7 @@ const handleGroupJoin=async(groupName)=>{
         <hr/> 
         {groups.map((g, id)=>{
           return(
-            <div className="alert alert-primary" key={id} onClick={() => handleGroupJoin(g.groupName)}>
+            <div className="alert alert-primary" key={id} disabled={joinGroupAble} onClick={() => handleGroupJoin(g.groupName)}>
             {g.groupName}{""}
            
           </div>
