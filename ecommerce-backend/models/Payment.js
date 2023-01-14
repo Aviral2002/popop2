@@ -4,13 +4,14 @@ const {ObjectId} = mongoose.Schema
 
 const PaymentSchema = new mongoose.Schema({
     
-            product : {
-                type: ObjectId,
-                ref : 'Product'
-            },
+            productId : [String],
       
             paymentStatus:{
                type:Boolean,
+               default: false
+            },
+            paymentVerifier: {
+                type: String
             },
 
     // paymentIntent : {},

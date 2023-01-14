@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const data = require('../logger.json')
+const PaymentSchema = require('../models/Payment')
 
 const Product = require('../models/product')
 const { writeInFile, readInFile } = require('../utils/logger')
@@ -44,16 +45,26 @@ router.get('/user/wishlist/createpaymentrequest', async(req, res) => {
 })
 router.post('/user/wishlist/successcrypto', async(req, res) => {
     try {
-        const {url} = req.body;
-        // const data = await scrapLink(url)
-        // let dataList = data.split(' ')
-        // console.log(typeof dataList)
-        // dataList = JSON.stringify(dataList[0]).split(' ')
-        console.log(url)
-        console.log(url.slice(31,118)) 
-        res.json({msg: 'good'})
+        const {url, productId} = req.body;
+        const data = {
+            productId: productId,
+            paymentStatus: true,
+            paymentVerifier: url
+        }
+        const createNewPayment = await new PaymentSchema({ data }).save();
+        res.json(createNewPayment);
+        // res.json({msg: 'good'})
     } catch (error) {
         console.log(error.message)
+    }
+})
+router.get('/user/order/ordersummary/', async(req, res) => {
+    try {
+        const { productId } = req.body;
+        const getProductSummaryData = await PaymentSchema.findOne({ productId }).exec();
+        res,json({ getProductSummaryData })
+    } catch (error) {
+        res.status(500).json({error: error.message})
     }
 })
 
