@@ -9,7 +9,7 @@ import Axios from 'axios';
 
 const Checkout = ({history}) => {
     let dispatch = useDispatch()
-    const {user,COD} = useSelector((state) => ({...state}))
+    const {user,COD,product} = useSelector((state) => ({...state}))
     const couponTrueOrFalse = useSelector((state) => state.coupon)
 
     const [products, setProducts] = useState([])
@@ -96,28 +96,29 @@ const Checkout = ({history}) => {
     const applyDiscountCoupon = () => {
         //console.log("coupon to backend", coupon)
         //apply coupon
-        applyCoupon(user.token, coupon)
-            .then((res) => {
-                console.log("RESPONSE ON APPLYING COUPON", res.data)
-                if(res.data){
-                    setTotalAfterDiscount(res.data);
-                    console.log(totalAfterDiscount)
-                    //push to redux as well
-                    dispatch({
-                        type: "COUPON_APPLIED",
-                        payload : true,
-                    })
-                }
-                if(res.data.err) {
-                    setDiscountError(res.data.err);
-                    console.log(totalAfterDiscount)
-                    //update redux coupon applied
-                    dispatch({
-                        type: "COUPON_APPLIED",
-                        payload : false,
-                    })
-                }
-            })
+        // applyCoupon(user.token, coupon)
+        //     .then((res) => {
+        //         console.log("RESPONSE ON APPLYING COUPON", res.data)
+        //         if(res.data){
+        //             setTotalAfterDiscount(res.data);
+        //             console.log(totalAfterDiscount)
+        //             //push to redux as well
+        //             dispatch({
+        //                 type: "COUPON_APPLIED",
+        //                 payload : true,
+        //             })
+        //         }
+        //         if(res.data.err) {
+        //             setDiscountError(res.data.err);
+        //             console.log(totalAfterDiscount)
+        //             //update redux coupon applied
+        //             dispatch({
+        //                 type: "COUPON_APPLIED",
+        //                 payload : false,
+        //             })
+        //         }
+        //     })
+        console.log('Product reducer',product)
     }
 
     const sol = async() => {

@@ -8,6 +8,7 @@ import {CODReducer} from "./CODReducer";
 import { SingleProductIdReducer } from "./SingleProductId";
 import { JoinGroupReducer } from "./JoinGroupReducer";
 import { PaymentStatusReducer } from "./paymentStatusReducer";
+import { ProductReducer } from "./productreducer";
 
 const rootReducer = combineReducers({
     user : userReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     SingleProductId:SingleProductIdReducer,
     JoinGroup:JoinGroupReducer,
     PaymentStatusReducer:PaymentStatusReducer,
+    productId:ProductReducer,
 });
 
 export default rootReducer;
