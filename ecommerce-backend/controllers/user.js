@@ -3,7 +3,11 @@ const Product = require('../models/product')
 const Cart = require('../models/cart')
 const Coupon = require('../models/coupon')
 const Order = require('../models/order')
+const PaymentSchema = require('../models/Payment')
 const uniqueid = require('uniqueid')
+const exp = require('constants')
+const { findOne } = require('../models/product')
+const db = require('../logger.json')
 //carts
 
 exports.userCart = async (req, res) => {
@@ -59,8 +63,8 @@ exports.getUserCart = async (req, res) => {
         .populate('products.product', '_id title price totalAfterDiscount')
         .exec();
 
-        const {products, cartTotal, totalAfterDiscount} = cart;
-        res.json({products, cartTotal, totalAfterDiscount}) //res.data.cartTotal
+        // const {products, cartTotal, totalAfterDiscount} = cart;
+        res.json(cart) //res.data.cartTotal
 }
 
 exports.emptyCart = async (req, res) => {
@@ -138,6 +142,16 @@ exports.createOrder = async (req, res) => {
 
     //console.log("NEW ORDER SAVED", newOrder)
     res.json({ok : true});
+}
+
+// exports.createCryptoOrder = async()=>{
+    
+// }
+exports.getCryptoOrder =async(req,res)=>{
+const cryptoItems= await Cart.find().exec();
+console.log(cryptoItems)
+res.json(cryptoItems);
+
 }
 
 exports.orders = async (req, res) => {
@@ -232,3 +246,10 @@ exports.createCashOrder = async (req, res) => {
     res.json({ok : true});
 }
 
+exports.delieverSig = async(req, res) => {
+    // const products = db;
+    // const productId = products.price.productId
+    // console.log(productId)
+    const paymentReport = await PaymentSchema.findOne().exec();
+    res.json(paymentReport)
+}

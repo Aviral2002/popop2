@@ -78,3 +78,22 @@ export const createCashOrderForUser = async (authtoken, COD, couponTrueOrFalse) 
             },
         })
 
+
+        export const getProductIdFromBackend =async(authToken)=>{
+             await axios.get(`${process.env.REACT_APP_API}/cryptoCart`,{},
+             {
+                headers:{
+                    authToken
+                }
+             })
+        }
+
+        export const SigFromSol =async(authToken)=>{
+            await axios.post(`${process.env.REACT_APP_API}/SigFromSol`,{},
+            {
+               headers:{
+                   authToken
+               }
+            })
+       }
+

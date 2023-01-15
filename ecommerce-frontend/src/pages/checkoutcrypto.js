@@ -9,7 +9,7 @@ import Axios from 'axios';
 
 const Checkout = ({history}) => {
     let dispatch = useDispatch()
-    const {user,COD,product} = useSelector((state) => ({...state}))
+    const {user,COD,productId} = useSelector((state) => ({...state}))
     const couponTrueOrFalse = useSelector((state) => state.coupon)
 
     const [products, setProducts] = useState([])
@@ -94,42 +94,44 @@ const Checkout = ({history}) => {
 
 
     const applyDiscountCoupon = () => {
-        //console.log("coupon to backend", coupon)
-        //apply coupon
-        // applyCoupon(user.token, coupon)
-        //     .then((res) => {
-        //         console.log("RESPONSE ON APPLYING COUPON", res.data)
-        //         if(res.data){
-        //             setTotalAfterDiscount(res.data);
-        //             console.log(totalAfterDiscount)
-        //             //push to redux as well
-        //             dispatch({
-        //                 type: "COUPON_APPLIED",
-        //                 payload : true,
-        //             })
-        //         }
-        //         if(res.data.err) {
-        //             setDiscountError(res.data.err);
-        //             console.log(totalAfterDiscount)
-        //             //update redux coupon applied
-        //             dispatch({
-        //                 type: "COUPON_APPLIED",
-        //                 payload : false,
-        //             })
-        //         }
-        //     })
-        console.log('Product reducer',product)
-    }
-
-    const sol = async() => {
-        let price = 0
+        console.log("coupon to backend", coupon)
+        // apply coupon
         applyCoupon(user.token, coupon)
             .then((res) => {
                 console.log("RESPONSE ON APPLYING COUPON", res.data)
                 if(res.data){
+                    setTotalAfterDiscount(res.data);
+                    console.log(totalAfterDiscount)
+                    //push to redux as well
+                    dispatch({
+                        type: "COUPON_APPLIED",
+                        payload : true,
+                    })
+                }
+                if(res.data.err) {
+                    setDiscountError(res.data.err);
+                    console.log(totalAfterDiscount)
+                    //update redux coupon applied
+                    dispatch({
+                        type: "COUPON_APPLIED",
+                        payload : false,
+                    })
+                }
+            })
+    }
+
+    const sol = async() => {
+        let price = 0
+
+
+        applyCoupon(user.token, coupon)
+            .then((res) => {
+                
+                console.log("RESPONSE ON APPLYING COUPON", res.data)
+                if(res.data){
                     setTotalAfterDiscount(res.data)
                     //push to redux as well
-                    Axios.post('http://localhost:8000/api/user/wishlist/createpaymentrequest', {price: res.data}).then(res => console.log('hogaya'))
+                    Axios.post('http://localhost:8000/api/user/wishlist/createpaymentrequest', {price: res.data, productId}).then(res => console.log('hogaya'))
                     dispatch({
                         type: "COUPON_APPLIED",
                         payload : true,

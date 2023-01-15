@@ -4,7 +4,7 @@ import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { FC, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { useEffect } from 'react';
-import { response } from 'express';
+// import { response } from 'express';
 import axios from 'axios'
 
 
@@ -13,6 +13,8 @@ export const SendSolForm: FC = () => {
     const [txSig, setTxSig] = useState('');
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
+    const [priceBack, setPriceBack] = useState(0);
+    const [prodId, setProdId] = useState([])
     const link = () => {
         console.log(txSig)
         urlsend(txSig)
@@ -26,9 +28,14 @@ export const SendSolForm: FC = () => {
         const getMoney = async() => {
             try {
                 const res = await fetch('http://localhost:8000/api/user/wishlist/createpaymentrequest');
-                const data = await res.json()
-                console.log(data.msg.price)
-                setPayment(data.msg.price)
+                const data = await res.json();
+                console.log(data)
+                const { price } = data.msg;
+                // const { price, productId} = price
+                setPriceBack(price.price)
+                setProdId(price.productId)
+                console.log(price.productId)
+                setPayment(price)
                 
             } catch (error) {
                 console.error(error)
@@ -71,10 +78,11 @@ export const SendSolForm: FC = () => {
 const urlsend = async (txSig) => {
     try {
         
-        const urlData = {url: `https://explorer.solana.com/tx/${txSig}?cluster=devnet`}
+        const urlData = {url: `https://explorer.solana.com/tx/${txSig}?cluster=devnet`, productId: prodId}
         const res = await axios.post(`http://localhost:8000/api//user/wishlist/successcrypto`, urlData);
         const data = await res.data;
         console.log(urlData)
+        window.location.href = `https://explorer.solana.com/tx/${txSig}?cluster=devnet`
         // console.log(data['Realtime Currency Exchange Rate']['5. Exchange Rate']);
         // console.log()
         // setsol(data['Realtime Currency Exchange Rate']['5. Exchange Rate'])

@@ -12,7 +12,7 @@ const {authCheck} = require('../middlewares/auth')
 //controllers
 const {userCart, getUserCart, emptyCart, saveAddress,
     applyCouponToUserCart, createOrder, createCashOrder, orders,
-    addToWishlist, wishlist, removeFromWishlist} = require('../controllers/user')
+    addToWishlist, wishlist, removeFromWishlist,createCryptoOrder,getCryptoOrder, delieverSig} = require('../controllers/user')
 
     const { CreateGroup, getGroup, joinGroup } = require('../controllers/groupController')
 
@@ -23,7 +23,10 @@ router.delete('/user/cart', authCheck, emptyCart);
 router.post('/user/address', authCheck, saveAddress);
 router.post('/user/order', authCheck, createOrder) //stripe
 router.post('/user/cash-order', authCheck, createCashOrder) //COD
+router.post('/user/crypto-order', authCheck) //Crypto
+router.get("/user/cryptoCart", authCheck, getCryptoOrder)
 router.get('/user/orders', authCheck, orders)
+router.get("/user/sigFromSol", delieverSig)
 
 //coupon
 router.post('/user/cart/coupon', authCheck, applyCouponToUserCart)
@@ -35,10 +38,12 @@ router.put('/user/wishlist/:productId', authCheck, removeFromWishlist)
 const dataofproduct = ''
 
 router.post('/user/wishlist/createpaymentrequest', async(req, res) => {
-    const {price} = req.body;
-    writeInFile(price)
+    const {price, productId} = req.body;
+    // console.log(productId)
+    writeInFile({price, productId})
     res.json({msg: 'success'})
 })
+
 router.get('/user/wishlist/createpaymentrequest', async(req, res) => {
     console.log(data)
     res.json({msg: data})
@@ -46,12 +51,13 @@ router.get('/user/wishlist/createpaymentrequest', async(req, res) => {
 router.post('/user/wishlist/successcrypto', async(req, res) => {
     try {
         const {url, productId} = req.body;
+        console.log('url', url)
         const data = {
             productId: productId,
             paymentStatus: true,
             paymentVerifier: url
         }
-        const createNewPayment = await new PaymentSchema({ data }).save();
+        const createNewPayment = await new PaymentSchema(data).save();
         res.json(createNewPayment);
         // res.json({msg: 'good'})
     } catch (error) {
@@ -60,9 +66,8 @@ router.post('/user/wishlist/successcrypto', async(req, res) => {
 })
 router.get('/user/order/ordersummary/', async(req, res) => {
     try {
-        const { productId } = req.body;
-        const getProductSummaryData = await PaymentSchema.findOne({ productId }).exec();
-        res,json({ getProductSummaryData })
+        const getProductSummaryData = await PaymentSchema.find().exec();
+        res.json({ getProductSummaryData })
     } catch (error) {
         res.status(500).json({error: error.message})
     }

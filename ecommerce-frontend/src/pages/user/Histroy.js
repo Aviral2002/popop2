@@ -7,6 +7,8 @@ import {toast} from "react-toastify";
 import ShowPaymentInfo from "../../components/cards/ShowPaymentInfo";
 import {PDFDownloadLink} from '@react-pdf/renderer';
 import Invoice from "../../components/order/Invoice";
+import { getUserCart } from "../../functions/user"
+import axios from 'axios';
 
 const History = () => {
     const {user} = useSelector((state) => ({...state}))
@@ -14,8 +16,17 @@ const History = () => {
 
     useEffect(() => {
         loadUserOrders();
+        const getData = async() => {
+            await getCryptoSig(user.token);
+        }
+        getData()
     }, [])
-
+    const getCryptoSig = async(authToken) => {
+        const res = await axios.get('localhost:8000/api/user/sigFromSol', {
+            headers: {authToken}
+        });
+        console.log(res)
+    }
     const loadUserOrders = () => {
         getUserOrders(user.token)
             .then((res) => {
@@ -23,6 +34,8 @@ const History = () => {
                 setOrders(res.data)
             })
     }
+
+    // const get
 
     const showEachOrders = (orders) =>
         orders.reverse().map((order, i) => (

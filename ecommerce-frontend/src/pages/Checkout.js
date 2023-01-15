@@ -8,7 +8,7 @@ import "react-quill/dist/quill.snow.css"
 
 const Checkout = ({history}) => {
     let dispatch = useDispatch()
-    const {user,COD} = useSelector((state) => ({...state}))
+    const {user,COD,JoinGroup} = useSelector((state) => ({...state}))
     const couponTrueOrFalse = useSelector((state) => state.coupon)
 
     const [products, setProducts] = useState([])
@@ -198,6 +198,8 @@ const Checkout = ({history}) => {
                 </div>
 
             </div>
+            
+            <div>{!JoinGroup?(<div className='p-3 mb-2 bg-success text-white' >YOU HAVE SUCCESFULLY JOINED THE GROUP! </div>):<div className='p-3 mb-2 bg-danger text-white m-4'>NO GROUP JOINED!</div>}</div>
 
         </div>
     )
