@@ -22,7 +22,7 @@ This is a group buying platform that uses a "minimum purchase" requirement to of
 1. First, install phantom wallet in your web browser and create a wallet
 2. Clone the git repository
    '''
-   git clone https://github.com/Cyber-Boy/SyntaxError.git
+   git clone https://github.com/Aviral2002/popop2
 
    '''
 
