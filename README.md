@@ -1,5 +1,3 @@
-# SYNTAX ERROR PROJECT
-
 ## GroupGo
 
 ### *Project Description*
